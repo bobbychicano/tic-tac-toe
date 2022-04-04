@@ -1,23 +1,37 @@
 const gameBoard = (() => {
-  const gameSpaces = document.querySelectorAll('.grid-cell');
+  const gameCells = document.querySelectorAll('.grid-cell');
+  const gameSquares = Array.from(gameCells);
 
-  const gameSquares = Array.from(gameSpaces);
+  let gameSpaces = ['X', 'O', 'X', 'O', 'O', 'X', 'X', 'O', 'X'];
 
-  return {gameSquares};
+  const drawArray = function(e) {
+    const gridNumber = e.target.dataset.box;
+    console.log(gridNumber);
+    const spanItem = document.createElement('span');
+    spanItem.innerText = `${gameSpaces[gridNumber]}`;
+    gameCells[gridNumber].append(spanItem);
+  }
 
+  gameSquares.forEach(arrElement => arrElement.addEventListener('click', drawArray, {once: true}));
+
+  return {gameSpaces};
 })();
 
 // gameBoard.~somefunction~
 
 //Player Objects
 
-const playerFactory = () => {
+const playerFactory = (name) => {
+  const getName = () => name;
 
-}
+  return {getName};
+};
 
 
 //Game flow Object
+const gameFlow = (() => {
+  const playerOne = playerFactory.getName;
+  const playerTwo = playerFactory.getName;
 
-gameFlow = (() => {
-
+  
 })();
