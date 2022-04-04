@@ -3,18 +3,7 @@ const gameBoard = (() => {
   const gameCells = document.querySelectorAll(".grid-cell");
   const gameSquares = Array.from(gameCells);
 
-// drawMove is basically telling me that it is completely possible to click on a tic tac toe grid square and have an event listener be registered. Now, what do I want to do once there is a click? I want to draw an 'X' or an 'O' depending on who the current player is.
-/*
-  const drawMove = function (e) {
-    const gridNumber = e.target.dataset.box;
-    console.log(gridNumber);
-    const spanItem = document.createElement("span");
-    //spanItem.innerText = currentPlayer.getMove(); // it doesnt have access to currentPlayer.getMove()
-    //gameCells[gridNumber].append(spanItem);
-  };
-*/
-
-  return { gameCells, gameSquares};
+  return { gameCells, gameSquares };
 })();
 
 // Player Object
@@ -29,31 +18,38 @@ const playerFactory = (name, move) => {
 // the text input comes from a player writing their name in a pop up form/field
 // the factory is used to create a player object with their name and what else..?
 
-const playerX = playerFactory('Billy', 'X');
-const playerO = playerFactory('Bob', 'O');
-
-// playerO = { getName, getMove}
+// playerO === { getName, getMove}
 // playerO.getName() === 'Bob'
 // playerO.getMove() === 'O'
 
-// Gameflow Object
+const playerX = playerFactory('Billy', 'X');
+const playerO = playerFactory('Bob', 'O');
+
 const gameFlow = (() => {
 
-  // logic for choosing the player
   let currentPlayer = playerX;
 
+  const drawMove = function(e) {
 
-  //if (currentPlayer == playerX {
-//    currentPlayer = playerO;
-//  }
-
-  const drawMove = function (e) {
     const gridNumber = e.target.dataset.box;
     console.log(gridNumber);
     const spanItem = document.createElement("span");
     spanItem.innerText = currentPlayer.getMove();
     gameBoard.gameCells[gridNumber].append(spanItem);
+
+    if (currentPlayer == playerX){
+      currentPlayer = playerO;
+    } else {
+      currentPlayer = playerX;
+    }
   };
+
+  return { drawMove };
+})();
+
+gameBoard.gameSquares.forEach((arrElement) =>
+  arrElement.addEventListener("click", gameFlow.drawMove, { once: true })
+);
 
 
 /*
@@ -68,14 +64,3 @@ let winningCombinations = [
   [2, 4, 6],
 ]
 */
-
-  return { drawMove };
-})();
-
-// How do I write the logic to change players?
-
-gameBoard.gameSquares.forEach((arrElement) =>
-  arrElement.addEventListener("click", gameFlow.drawMove, { once: true })
-);
-
-//I want it to be so that when you click a grid square it looks to see who the current player is and then draws their symbol on it by appending a <span> element.
