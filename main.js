@@ -68,31 +68,16 @@ const gameFlow = (() => {
       [0, 4, 8],
       [2, 4, 6],
     ];
-    // If all the combinations come back 'false' then it means there is no winner and the game is a tie. But it can only check for that condition once all squares have been filled in.
 
-    // It boils down to checking if every element in the combo has the same innerText, which equals to 3-in-a row which means a winning combination
-    //forEach() always returns a value of 'undefined'
     winningCombinations.forEach((combo) => {
 
       let check = combo.every((element) => gameBoard.gameCells[element].firstElementChild.innerText === `${_currentPlayer.getMove()}`)
-
-      // 'check' returns either 'true' or 'false'. So, they have to all pass the condition or else it's an immediate false. What do we do with the value?
-
-      // There is now way to break out of a forEach() function loop so consider alternative looping methods if you MUST be able to skip an iteration
-
-
-      // What we really have to test is the actual combo. if the combo is true then the player wins. If the combo is false, then we have to check the other combo until no more combos are available
 
       if (check === 'true') {
         winner = `${_currentPlayer}`;
         console.log(winner);
       }
 
-      // If 'fasle' do nothing? If ALL combos return false then return that it's a tie.
-      // I do think the conditional tests have to be inside the function
-
-      // if check === 'false' every single time then it is a tie.
-      // is there another condition to check for another winner?
     })
   };
 
