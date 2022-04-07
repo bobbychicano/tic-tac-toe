@@ -2,6 +2,8 @@
 const gameBoard = (() => {
   const _gameCells = document.querySelectorAll(".grid-cell");
   const gameSquares = Array.from(_gameCells);
+  const winScreen = document.getElementById("win");
+  const drawScreen = document.getElementById("draw");
 
   const winningCombinations = [
     [0, 1, 2],
@@ -14,7 +16,7 @@ const gameBoard = (() => {
     [2, 4, 6]
   ];
 
-  return { gameSquares, winningCombinations };
+  return { gameSquares, winScreen, drawScreen, winningCombinations };
 })();
 
 
@@ -88,13 +90,18 @@ const gameFlow = (() => {
 
   const displayWinner = function() {
     //  This function pops up a screen that announces the winner and has a restart button present
-    
+    gameBoard.winScreen.classList.add("visible");
   }
 
 /*
   const checkForDraw = function(){
 
-  }
+  };
+
+
+  const restart = function() {
+
+  };
 */
 
   return { drawMove };
@@ -104,3 +111,5 @@ const gameFlow = (() => {
 gameBoard.gameSquares.forEach((arrElement) => {
   arrElement.addEventListener("click", gameFlow.drawMove, { once: true })
 });
+
+//restart button event listener
