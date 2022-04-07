@@ -1,7 +1,7 @@
 // Gameboard Object
 const gameBoard = (() => {
-  const gameCells = document.querySelectorAll(".grid-cell");
-  const gameSquares = Array.from(gameCells);
+  const _gameCells = document.querySelectorAll(".grid-cell");
+  const gameSquares = Array.from(_gameCells);
 
   const winningCombinations = [
     [0, 1, 2],
@@ -25,6 +25,8 @@ const gameBoard = (() => {
 const playerFactory = (name, move) => {
   const getName = () => name;
   const getMove = () => move;
+
+  //I'll have to write logic to get the name of the player from a prompt right when the game starts.
 
   return { getName, getMove };
 };
@@ -54,6 +56,7 @@ const gameFlow = (() => {
     // Old code: gameBoard.gameSquares[gridNumber].append(spanItem);
 
     checkForWinner(_currentPlayer);
+    //checkForDraw();
 
     changePlayer();
 
@@ -67,13 +70,8 @@ const gameFlow = (() => {
     }
   }
 
-  // The function to check for a winner. Will be returned to be called as a method.
-  //My logic for checking the winner is wrong
   const checkForWinner = function(player) {
-
-    console.log(player.getMove());
-
-    gameBoard.winningCombinations.some(combo => {
+    gameBoard.winningCombinations.forEach(combo => {
       let checkCombo = combo.every(element => {
         return gameBoard.gameSquares[element].textContent == player.getMove();
       })
@@ -81,10 +79,23 @@ const gameFlow = (() => {
       if (checkCombo) {
         winner = _currentPlayer.getName();
         console.log(winner)
+        displayWinner();
+        //logic that stops the game and announces the winner
+        // Pop up a screen that announces the winner and that they can't exit out of unless they press 'restart'
       }
-
     })
   };
+
+  const displayWinner = function() {
+    //  This function pops up a screen that announces the winner and has a restart button present
+    
+  }
+
+/*
+  const checkForDraw = function(){
+
+  }
+*/
 
   return { drawMove };
 })();
@@ -93,9 +104,3 @@ const gameFlow = (() => {
 gameBoard.gameSquares.forEach((arrElement) => {
   arrElement.addEventListener("click", gameFlow.drawMove, { once: true })
 });
-
-/*
-  const displayWinner() {
-    // Function that toggles a hidden element in the DOM with a certain class to suddenly be visible.
-  }
-*/
