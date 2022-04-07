@@ -81,15 +81,15 @@ const gameFlow = (() => {
       if (checkCombo) {
         winner = _currentPlayer.getName();
         console.log(winner)
-        displayWinner();
+        displayWinner(winner);
         //logic that stops the game and announces the winner
         // Pop up a screen that announces the winner and that they can't exit out of unless they press 'restart'
       }
     })
   };
 
-  const displayWinner = function() {
-    //  This function pops up a screen that announces the winner and has a restart button present
+  const displayWinner = function(winner) {
+    gameBoard.winScreen.innerText = `WINNER: ${winner.toUpperCase()}`;
     gameBoard.winScreen.classList.add("visible");
   }
 
