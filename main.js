@@ -1,11 +1,9 @@
 // Gameboard Object
 const gameBoard = (() => {
-  const gameCells = document.querySelectorAll(".grid-cell");
-  const gameSquares = Array.from(gameCells);
+  const _gameCells = document.querySelectorAll(".grid-cell");
+  const gameSquares = Array.from(_gameCells);
   const endScreen = document.getElementById("end-screen");
-  // making winScreen into endScreen
   const endText = document.getElementById("end-text");
-  // making winText into endText
   const restartButton = document.querySelector(".restart-button");
 
   const winningCombinations = [
@@ -19,11 +17,8 @@ const gameBoard = (() => {
     [2, 4, 6]
   ];
 
-  return { gameCells, gameSquares, endScreen, winningCombinations, endText, restartButton };
+  return { gameSquares, winningCombinations, endScreen, endText, restartButton };
 })();
-
-
-
 
 
 // Player Object
@@ -36,38 +31,32 @@ const playerFactory = (name, move) => {
   return { getName, getMove };
 };
 
-const playerX = playerFactory('Billy', 'X');
-const playerO = playerFactory('Bob', 'O');
-
-
-
+const playerX = playerFactory('Player 1', 'X');
+const playerO = playerFactory('Player 2', 'O');
 
 
 // The Gameflow object
-// Or, the 'displayController' as it is called in the project page
 const gameFlow = (() => {
 
-  let winner = '';
+  let _winner = '';
   let _currentPlayer = playerX;
 
-  // The function to place(draw) the 'X's and 'O's on the tic tac toe grid
   const drawMove = function(e) {
 
     const cell = e.target;
-    // Old code: const gridNumber = e.target.dataset.box;
     const spanItem = document.createElement("span");
     spanItem.innerText = _currentPlayer.getMove();
     cell.append(spanItem);
-    // Old code: gameBoard.gameSquares[gridNumber].append(spanItem);
 
-    checkForWinner(_currentPlayer);
-    checkForDraw();
+    _checkForWinner(_currentPlayer);
 
-    changePlayer();
+    _checkForDraw();
+
+    _changePlayer();
 
   };
 
-  const changePlayer = function() {
+  const _changePlayer = function() {
     if (_currentPlayer == playerX){
       _currentPlayer = playerO;
     } else {
@@ -75,21 +64,20 @@ const gameFlow = (() => {
     }
   }
 
-  const checkForWinner = function(player) {
+  const _checkForWinner = function(player) {
     gameBoard.winningCombinations.forEach(combo => {
       let checkCombo = combo.every(element => {
         return gameBoard.gameSquares[element].textContent == player.getMove();
       })
 
       if (checkCombo) {
-        winner = _currentPlayer.getName();
-        displayWinner(winner);
+        _winner = _currentPlayer.getName();
+        displayWinner(_winner);
       }
     })
   };
 
-
-  const checkForDraw = function(){
+  const _checkForDraw = function() {
     let checkForChild = gameBoard.gameSquares.every(element => {
       return element.hasChildNodes()
     })
@@ -110,7 +98,6 @@ const gameFlow = (() => {
   }
 
   const restartGame = function() {
-
     gameBoard.gameSquares.forEach(element => {
       if (element.hasChildNodes()) {
         element.removeChild(element.firstElementChild);
@@ -125,7 +112,7 @@ const gameFlow = (() => {
       arrElement.addEventListener("click", drawMove, { once: true })
     })
 
-    winner = '';
+    _winner = '';
     _currentPlayer = playerX;
     gameBoard.endText.textContent = '';
     gameBoard.endScreen.classList.remove("visible");
@@ -134,6 +121,7 @@ const gameFlow = (() => {
 
   return { drawMove, restartGame };
 })();
+
 
 // Initial event listener for the tic-tac-toe grid
 gameBoard.gameSquares.forEach((arrElement) => {
