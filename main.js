@@ -2,9 +2,10 @@
 const gameBoard = (() => {
   const gameCells = document.querySelectorAll(".grid-cell");
   const gameSquares = Array.from(gameCells);
-  const winScreen = document.getElementById("win");
-  const drawScreen = document.getElementById("draw");
-  const winText = document.getElementById("winner-text");
+  const endScreen = document.getElementById("end-screen");
+  // making winScreen into endScreen
+  const endText = document.getElementById("end-text");
+  // making winText into endText
   const restartButton = document.querySelector(".restart-button");
 
   const winningCombinations = [
@@ -18,7 +19,7 @@ const gameBoard = (() => {
     [2, 4, 6]
   ];
 
-  return { gameCells, gameSquares, winScreen, drawScreen, winningCombinations, winText, restartButton };
+  return { gameCells, gameSquares, endScreen, winningCombinations, endText, restartButton };
 })();
 
 
@@ -99,13 +100,13 @@ const gameFlow = (() => {
   }
 
   const displayWinner = function(winner) {
-    gameBoard.winText.textContent = `WINNER: ${winner.toUpperCase()}`;
-    gameBoard.winScreen.classList.add("visible");
+    gameBoard.endText.textContent = `WINNER: ${winner.toUpperCase()}`;
+    gameBoard.endScreen.classList.add("visible");
   }
 
   const displayDraw = function() {
-    gameBoard.winText.textContent = "IT'S A DRAW";
-    gameBoard.winScreen.classList.add("visible");
+    gameBoard.endText.textContent = "IT'S A DRAW";
+    gameBoard.endScreen.classList.add("visible");
   }
 
   const restartGame = function() {
@@ -126,8 +127,8 @@ const gameFlow = (() => {
 
     winner = '';
     _currentPlayer = playerX;
-    gameBoard.winText.textContent = '';
-    gameBoard.winScreen.classList.remove("visible");
+    gameBoard.endText.textContent = '';
+    gameBoard.endScreen.classList.remove("visible");
 
   };
 
