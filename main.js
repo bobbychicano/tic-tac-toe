@@ -106,28 +106,35 @@ const gameFlow = (() => {
 
   const restartGame = function() {
 
-      gameBoard.gameSquares.forEach( element => {
-        if (element.hasChildNodes()) {
-          element.removeChild(element.firstElementChild);
-        }
-      })
+    gameBoard.gameSquares.forEach(element => {
+      if (element.hasChildNodes()) {
+        element.removeChild(element.firstElementChild);
+      }
+    })
+
+    gameBoard.gameSquares.forEach(element => {
+      element.removeEventListener("click", drawMove)
+    })
+
+    gameBoard.gameSquares.forEach((arrElement) => {
+      arrElement.addEventListener("click", drawMove, { once: true })
+    })
 
     winner = '';
     _currentPlayer = playerX;
     gameBoard.winText.textContent = '';
     gameBoard.winScreen.classList.remove("visible");
 
-    //now i have to make sure that the squares have an evvent listener again when the game restarts
   };
 
 
   return { drawMove, restartGame };
 })();
 
-
+// Initial event listener for the tic-tac-toe grid
 gameBoard.gameSquares.forEach((arrElement) => {
   arrElement.addEventListener("click", gameFlow.drawMove, { once: true })
 });
 
-//restart button event listener
+// Restart button event listener
 gameBoard.restartButton.addEventListener("click", gameFlow.restartGame);
