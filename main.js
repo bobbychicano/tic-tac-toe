@@ -60,7 +60,7 @@ const gameFlow = (() => {
     // Old code: gameBoard.gameSquares[gridNumber].append(spanItem);
 
     checkForWinner(_currentPlayer);
-    //checkForDraw();
+    checkForDraw();
 
     changePlayer();
 
@@ -82,27 +82,31 @@ const gameFlow = (() => {
 
       if (checkCombo) {
         winner = _currentPlayer.getName();
-        console.log(winner)
         displayWinner(winner);
-        //logic that stops the game and announces the winner
-        // Pop up a screen that announces the winner and that they can't exit out of unless they press 'restart'
       }
-
-      // if all the spaces on the grid have been checked and there is no winner, then it is a draw
-
     })
   };
+
+
+  const checkForDraw = function(){
+    let checkForChild = gameBoard.gameSquares.every(element => {
+      return element.hasChildNodes()
+    })
+
+    if (checkForChild) {
+      displayDraw();
+    }
+  }
 
   const displayWinner = function(winner) {
     gameBoard.winText.textContent = `WINNER: ${winner.toUpperCase()}`;
     gameBoard.winScreen.classList.add("visible");
   }
 
-/*
-  const checkForDraw = function(){
-
-  };
-*/
+  const displayDraw = function() {
+    gameBoard.winText.textContent = "IT'S A DRAW";
+    gameBoard.winScreen.classList.add("visible");
+  }
 
   const restartGame = function() {
 
@@ -126,7 +130,6 @@ const gameFlow = (() => {
     gameBoard.winScreen.classList.remove("visible");
 
   };
-
 
   return { drawMove, restartGame };
 })();
