@@ -1,9 +1,11 @@
 // Gameboard Object
 const gameBoard = (() => {
-  const _gameCells = document.querySelectorAll(".grid-cell");
-  const gameSquares = Array.from(_gameCells);
+  const gameCells = document.querySelectorAll(".grid-cell");
+  const gameSquares = Array.from(gameCells);
   const winScreen = document.getElementById("win");
   const drawScreen = document.getElementById("draw");
+  const winText = document.getElementById("winner-text");
+  const restartButton = document.querySelector(".restart-button");
 
   const winningCombinations = [
     [0, 1, 2],
@@ -16,7 +18,7 @@ const gameBoard = (() => {
     [2, 4, 6]
   ];
 
-  return { gameSquares, winScreen, drawScreen, winningCombinations };
+  return { gameCells, gameSquares, winScreen, drawScreen, winningCombinations, winText, restartButton };
 })();
 
 
@@ -85,11 +87,14 @@ const gameFlow = (() => {
         //logic that stops the game and announces the winner
         // Pop up a screen that announces the winner and that they can't exit out of unless they press 'restart'
       }
+
+      // if all the spaces on the grid have been checked and there is no winner, then it is a draw
+
     })
   };
 
   const displayWinner = function(winner) {
-    gameBoard.winScreen.innerText = `WINNER: ${winner.toUpperCase()}`;
+    gameBoard.winText.textContent = `WINNER: ${winner.toUpperCase()}`;
     gameBoard.winScreen.classList.add("visible");
   }
 
@@ -97,14 +102,26 @@ const gameFlow = (() => {
   const checkForDraw = function(){
 
   };
-
-
-  const restart = function() {
-
-  };
 */
 
-  return { drawMove };
+  const restartGame = function() {
+
+      gameBoard.gameSquares.forEach( element => {
+        if (element.hasChildNodes()) {
+          element.removeChild(element.firstElementChild);
+        }
+      })
+
+    winner = '';
+    _currentPlayer = playerX;
+    gameBoard.winText.textContent = '';
+    gameBoard.winScreen.classList.remove("visible");
+
+    //now i have to make sure that the squares have an evvent listener again when the game restarts
+  };
+
+
+  return { drawMove, restartGame };
 })();
 
 
@@ -113,3 +130,4 @@ gameBoard.gameSquares.forEach((arrElement) => {
 });
 
 //restart button event listener
+gameBoard.restartButton.addEventListener("click", gameFlow.restartGame);
